@@ -1,7 +1,7 @@
-var lineVis, continentLineVis;
+var lineVis, continentLineVis, data2Vis;
 
 queue()
-    .defer(d3.csv, 'champs.csv')
+    .defer(d3.csv, 'data/champs.csv')
     .await(createLineVis);
 
 function createLineVis(error, data) {
@@ -13,7 +13,7 @@ $('#select-players').change(() => {
 })
 
 queue()
-    .defer(d3.csv, 'continent_plot.csv')
+    .defer(d3.csv, 'data/continent_plot.csv')
     .await(createContinentLineVis);
 
 function createContinentLineVis(error, data) {
@@ -23,6 +23,17 @@ function createContinentLineVis(error, data) {
 $('#select-players-continent').change(() => {
   continentLineVis.selectPlayers();
 })
+
+queue()
+    .defer(d3.json, 'data/country_count.json')
+    .defer(d3.json, 'data/world-110m.json')
+    .defer(d3.json, 'data/slim-2.json')
+    .await(createMapVis);
+
+function createMapVis(error, data, data2, data3) {
+  data2Vis = new Data2Vis("data2-vis", data, data2, data3);
+};
+
 // var width = 600,
 //   height = 600;
 // var padding = 40;

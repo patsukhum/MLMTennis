@@ -37,3 +37,15 @@
   margin-left: 100px;
   margin-right: 100px;
 }
+
+.mapPath {
+  paint-order: stroke fill;
+  stroke-width: 1.8;
+  stroke: white;
+}
+
+.mapPath:hover {
+  paint-order: stroke fill;
+  stroke-width: 3;
+  stroke: gray;
+}
