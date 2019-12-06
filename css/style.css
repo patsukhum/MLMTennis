@@ -49,3 +49,21 @@
   stroke-width: 3;
   stroke: gray;
 }
+
+#slider {
+  width: 200px;
+  margin-right: 200px;
+  margin-left: 200px;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.slider-vertical {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

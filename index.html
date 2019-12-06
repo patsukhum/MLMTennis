@@ -117,11 +117,47 @@
 				<div id="continent-line-vis" class="vis-container"></div>
 			</center>
 		</div>
+		<div id="match-line-sec" class="section">
+			<center>
+				<div class="slider-container">
+
+					<div class='slider-vertical'>
+						<div style="margin-right: 20px;">First Serves Won:</div>
+						<div class="slider-container">
+							<!-- <div style="margin-right: 20px;">First Serves Won:</div> -->
+							<div class="slider-vertical">
+								<input id="slide1" type="range" min="-3" max="3" step="0.5" value="0">
+								<div id="sliderAmount1"></div>
+							</div>
+						</div>
+						<div style="margin-right: 20px;">Serves Won:</div>
+						<div class="slider-container">
+							<!-- <div style="margin-right: 20px;">Serves Won:</div> -->
+							<div class="slider-vertical">
+								<input id="slide2" type="range" min="-3" max="3" step="0.5" value="0">
+								<div id="sliderAmount2"></div>
+							</div>
+						</div>
+						<div style="margin-right: 20px;">Break Points Saved:</div>
+						<div class="slider-container">
+							<div class="slider-vertical">
+								<input id="slide3" type="range" min="-3" max="3" step="0.5" value="0">
+								<div id="sliderAmount3"></div>
+							</div>
+						</div>
+					</div>
+					<div id="match-line-vis" class="vis-container"></div>
+				</div>
+			</center>
+		</div>
 	</div>
 
 
 	<!-- Load JS libraries -->
 	<script src="js/libraries/jquery.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="js/libraries/popper.min.js"></script>
 	<script src="js/libraries/bootstrap.min.js"></script>
 	<script src="js/libraries/d3.min.js"></script>
@@ -136,6 +172,7 @@
 	<script src="js/line-vis.js"></script>
 	<script src="js/continent-line-vis.js"></script>
 	<script src="js/data2-vis.js"></script>
+	<script src="js/match-line-vis.js"></script>
 	<script>
 		var myFullpage = new fullpage('#fullpage', {
 			navigation: true,

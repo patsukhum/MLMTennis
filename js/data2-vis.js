@@ -10,11 +10,14 @@
  * @constructor
  */
 
-Data2Vis = function(_parentElement, _data, _mapData, _countryCodes) {
+Data2Vis = function(_parentElement, _data, _mapData, _countryCodes, medianRank) {
   this.parentElement = _parentElement;
   this.dataObject = _data;
   this.mapDataRaw = _mapData;
   this.countryCodes = _countryCodes;
+  this.medianRank = medianRank;
+  // this.dataObject = this.medianRank;
+
   console.log(this.data);
   console.log(this.mapDataRaw);
 
@@ -43,6 +46,22 @@ Data2Vis.prototype.initVis = function() {
 
   vis.mapGroup = vis.svg.append("g")
     .attr('class', 'map');
+
+  vis.svg.append("text")
+    .attr("class", "legend-text")
+    .text('Total Players')
+    .attr("x", 23)
+    .attr("y", -10+180)
+    .attr("fill", "black")
+    .style("font-size", 14);
+
+  vis.svg.append("text")
+    .attr("class", "legend-text")
+    .text('(from 2000-2018)')
+    .attr("x", 23)
+    .attr("y", 190)
+    .attr("fill", "black")
+    .style("font-size", 11);
 
   vis.wrangleData();
 };
@@ -75,6 +94,10 @@ Data2Vis.prototype.wrangleData = function() {
     vis.data.push({key:key, val: vis.dataObject[key][0]});
   }
 
+  vis.mapData = vis.mapData.filter((d) => {
+    return vis.idToCountry[d.id] !== 'Antarctica';
+  })
+
   console.log(vis.mapData)
   console.log(vis.data)
   console.log(vis.countryCodes)
@@ -90,8 +113,10 @@ Data2Vis.prototype.updateVis = function() {
   })
   console.log(maxVal);
   vis.color.domain([10, 50, 100, 200, 300, 400, 500]);
+  // vis.color.domain([200, 500, 800, 1100, 1400, 1700]);
 
   var emptyColor = ["lightgray"];
+  // var colors = emptyColor.concat(d3.schemeReds[5]);
   var colors = emptyColor.concat(d3.schemeReds[6]);
   vis.color.range(colors);
 
@@ -126,7 +151,7 @@ Data2Vis.prototype.updateVis = function() {
       vis.tooltip.transition()
         .duration(800)
         .style("opacity", .8);
-      // console.log();
+      console.log(d);
       var numPlayers = vis.dataObject[vis.idToAlpha[d.id]];
       if (numPlayers === undefined) numPlayers = 'N/A';
       var txt = vis.idToCountry[d.id] + "<br>Num Players: "+numPlayers;
@@ -139,10 +164,6 @@ Data2Vis.prototype.updateVis = function() {
         .duration(600).style("opacity", 0);
     })
     .attr("fill", function(d, i) {
-      var country = vis.idToCountry[d.id];
-      if (country === 'Antarctica'){
-        return "white";
-      }
       var alpha = vis.idToAlpha[d.id];
       if (alpha in vis.dataObject)
         return vis.color(vis.dataObject[alpha]);
@@ -181,6 +202,8 @@ Data2Vis.prototype.updateVis = function() {
   legendRects.exit().remove();
 
   var legendTexts = ['0-10 or No Data', '11-50', '51-100', '101-200', '201-300', '301-400', '401-500'];
+  // var legendTexts = ['250-350', '350-500', '500-700', '700-1000', '900-1199', '1200-1499', '1500-1800', 'No Data'];
+  // var legendTexts = ['No Data', '200-500', '500-800', '800-1100', '1100-1400', '1400-1700'];
   var texts = vis.svg.selectAll(".texts")
     .data(legendTexts);
 
