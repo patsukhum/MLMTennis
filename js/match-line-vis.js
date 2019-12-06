@@ -1,6 +1,7 @@
-MatchLineVis = function(_parentElement, _data) {
+MatchLineVis = function(_parentElement, _data, data2) {
   this.parentElement = _parentElement;
   this.data = _data;
+  this.dataScatter = data2;
   this.wrangleData();
   this.initVis();
   this.updateVis();
@@ -11,6 +12,14 @@ MatchLineVis.prototype.wrangleData = function() {
   vis.data.forEach((d) => {
     d.rankRaw = +d.rankRaw;
     d.age = +d.age;
+  })
+  vis.dataScatter.forEach((d) => {
+    d.rank_sqrt = +d.rank_sqrt;
+    d.age = +d.age + Math.random()-0.5;
+  })
+
+  vis.dataScatter = vis.dataScatter.filter((d) => {
+    return d.age <= 32;
   })
 }
 
@@ -47,10 +56,12 @@ MatchLineVis.prototype.initVis = function() {
     .style("opacity", 0);
 
 
-  vis.dateExtent = d3.extent(vis.data, (d) => {
+  vis.dateExtent = d3.extent(vis.dataScatter, (d) => {
     return d.age;
   });
-  vis.rankExtent = [5,20];
+  vis.rankExtent = d3.extent(vis.dataScatter, (d) => {
+    return d.rank_sqrt;
+  });
 
   var innerPaddingX = 1;
   var innerPaddingY = 2;
@@ -103,6 +114,27 @@ MatchLineVis.prototype.initVis = function() {
     2: 0
   }
 
+  var scatter = vis.svg.selectAll(".scatter")
+    .data(vis.dataScatter);
+
+  scatter.enter()
+    .append("circle")
+    .attr("class", "scatter")
+    .merge(scatter)
+    .attr("cx", (d, i) => {
+      return vis.xScale(d.age);
+    })
+    .attr("cy", (d, i) => {
+      return vis.yScale(d.rank_sqrt);
+    })
+    .style('opacity', 0.2)
+    .attr("r", 3)
+    .attr("fill", (d, i) => {
+      return "black";
+    });
+  scatter.exit().remove();
+
+
   var nodes = vis.svg.selectAll(".legendNodes")
     .data(['Base', 'Adjusted']);
 
@@ -119,8 +151,8 @@ MatchLineVis.prototype.initVis = function() {
     .attr("width", 15)
     .attr("height", 15)
     .attr("fill", (d, i) => {
-      if (i===0) return "gray";
-      return "black";
+      if (i===0) return "blue";
+      return "red";
     });
   nodes.exit().remove();
 
@@ -147,7 +179,7 @@ MatchLineVis.prototype.initVis = function() {
 
 MatchLineVis.prototype.updateVis = function() {
   var vis = this;
-  vis.drawPlayer(vis, vis.data, "gray");
+  vis.drawPlayer(vis, vis.data, "blue");
 }
 
 MatchLineVis.prototype.recomputeData = function() {
@@ -169,8 +201,8 @@ MatchLineVis.prototype.updateSliderVal = function(val, idx) {
   // });
   $('#match-line-vis').empty();
   vis.initVis();
-  vis.drawPlayer(vis, vis.data, "gray");
-  vis.drawPlayer(vis, vis.curData, "black");
+  vis.drawPlayer(vis, vis.data, "blue");
+  vis.drawPlayer(vis, vis.curData, "red");
 }
 
 MatchLineVis.prototype.drawPlayer = function(vis, cur_d, color) {
@@ -180,7 +212,7 @@ MatchLineVis.prototype.drawPlayer = function(vis, cur_d, color) {
     .datum(cur_d)
     .attr("fill", "none")
     .attr("stroke", color)
-    .attr("stroke-width", 1.5)
+    .attr("stroke-width", 5)
     .attr("d", d3.line()
       .x(function(d) {
         return vis.xScale(d.age)

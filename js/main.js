@@ -38,10 +38,11 @@ $('#select-players-continent').change(() => {
 
 queue()
     .defer(d3.csv, 'data/match_model.csv')
+    .defer(d3.csv, 'data/filtered.atp.dataset.csv')
     .await(createMatchLineVis);
 
-function createMatchLineVis(error, data) {
-  matchLineVis = new MatchLineVis("match-line-vis", data);
+function createMatchLineVis(error, data, data2) {
+  matchLineVis = new MatchLineVis("match-line-vis", data, data2);
   var slide = document.getElementById('slide1'),
     sliderDiv = document.getElementById("sliderAmount1");
 
