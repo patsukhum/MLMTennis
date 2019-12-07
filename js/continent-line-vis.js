@@ -1,6 +1,8 @@
-ContinentLineVis = function(_parentElement, _data) {
+ContinentLineVis = function(_parentElement, _data, data2) {
   this.parentElement = _parentElement;
   this.data = _data;
+  this.dataScatter = data2;
+  this.selection = "All";
   this.wrangleData();
   this.initVis();
   this.updateVis();
@@ -11,6 +13,14 @@ ContinentLineVis.prototype.wrangleData = function() {
   vis.data.forEach((d) => {
     d.Rank = +d.Rank;
     d.Age = +d.Age;
+  })
+  vis.dataScatter.forEach((d) => {
+    d.rank_log = +d.rank_log;
+    d.age = +d.age + Math.random()-0.5;
+  });
+
+  vis.dataScatter = vis.dataScatter.filter((d) => {
+    return d.age <= 32 && d.age >= 17;
   })
 }
 
@@ -23,8 +33,8 @@ ContinentLineVis.prototype.initVis = function() {
     'left': 40,
     'right': 40
   };
-  vis.width = 500 - vis.margin.left - vis.margin.right;
-  vis.height = vis.width;
+  vis.width = 800 - vis.margin.left - vis.margin.right;
+  vis.height = 500;
   vis.padding = 40;
   vis.svg = makeSvg(vis, 'line-vis');
   vis.yScale = d3.scaleLinear()
@@ -47,19 +57,27 @@ ContinentLineVis.prototype.initVis = function() {
     .style("opacity", 0);
 
   vis.all_regions = ["AF", "AS", "EU", "NoA", "OC", "SA"]
+  vis.regionToIdx = {
+    "AF": 0,
+    "AS": 1,
+    "EU": 2,
+    "NoA": 3,
+    "OC": 4,
+    "SA": 5
+  };
   vis.regions = vis.all_regions;
 
-  vis.dateExtent = d3.extent(vis.data, (d) => {
-    return d.Age;
+  vis.dateExtent = d3.extent(vis.dataScatter, (d) => {
+    return d.age;
   });
-  vis.rankExtent = d3.extent(vis.data, (d) => {
-    return d.Rank;
+  vis.rankExtent = d3.extent(vis.dataScatter, (d) => {
+    return d.rank_log;
   });
 
   var innerPaddingX = 1;
   var innerPaddingY = 2;
   vis.xScale.domain([vis.dateExtent[0] - innerPaddingX, vis.dateExtent[1]])
-  vis.yScale.domain([vis.rankExtent[0] - innerPaddingY, vis.rankExtent[1]])
+  vis.yScale.domain([vis.rankExtent[0], vis.rankExtent[1]])
 
   vis.playerData = vis.data;
   vis.af = vis.playerData.filter((d) => d.Continent == 'AF');
@@ -94,19 +112,23 @@ ContinentLineVis.prototype.initVis = function() {
   vis.svg.append("g")
     .append("text")
     .text((d) => {
-      return "Rank";
+      return "Rank (Log Transformed)";
     })
     .attr("transform", "rotate(-90)")
     .attr("x", -220)
     .style("text-anchor", "end")
     .attr("y", 15);
 
-  // vis.updateVis();
 }
 
 ContinentLineVis.prototype.updateVis = function() {
   var vis = this;
-  console.log(vis.regions);
+  // var contIdx = vis.all_regions.findIndex((d) => d === vis.selection);
+  var contIdx = vis.regionToIdx[vis.selection];
+  if (vis.selection === "All")
+    vis.drawScatterAll();
+  else
+    vis.drawScatterContinent(vis.selection, contIdx);
   if (vis.regions.includes('AF'))
     vis.drawPlayer(vis, vis.af, 0);
   else
@@ -138,31 +160,12 @@ ContinentLineVis.prototype.updateVis = function() {
 
 ContinentLineVis.prototype.drawPlayer = function(vis, cur_d, idx) {
   var vis = this;
-  vis.svg.selectAll(".line" + idx).each(function (_d) {
-    var line = d3.select(this)
-      .datum(cur_d)
-    line.enter().append("path")
-      .merge(line)
-      .attr("class", "line"+idx)
-      .attr("fill", "none")
-      .attr("stroke", vis.color(idx))
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) {
-          return vis.xScale(d.Age)
-        })
-        .y(function(d) {
-          return vis.yScale(d.Rank)
-        })
-      )
-    line.exit().remove();
-  });
 
   vis.svg.append("path")
     .datum(cur_d)
     .attr("fill", "none")
     .attr("stroke", vis.color(idx))
-    .attr("stroke-width", 1.5)
+    .attr("stroke-width", 3)
     .attr("d", d3.line()
       .x(function(d) {
         return vis.xScale(d.Age)
@@ -212,10 +215,10 @@ ContinentLineVis.prototype.drawPlayer = function(vis, cur_d, idx) {
     .attr("class", "legendNodes" + idx)
     .merge(nodes)
     .attr("cx", (d, i) => {
-      return vis.width - 160;
+      return 100;
     })
     .attr("cy", (d, i) => {
-      return 100 + 20 * idx;
+      return 300 + 20 * idx;
     })
     .attr("r", (d) => {
       if (vis.regions.includes(vis.all_regions[idx]))
@@ -233,10 +236,10 @@ ContinentLineVis.prototype.drawPlayer = function(vis, cur_d, idx) {
     .attr("class", "texts" + idx)
     .merge(texts)
     .attr("x", (d, i) => {
-      return vis.width - 140;
+      return 120;
     })
     .attr("y", (d, i) => {
-      return 105 + 20 * idx;
+      return 305 + 20 * idx;
     })
     .text((d, i) => {
       if (vis.regions.includes(vis.all_regions[idx]))
@@ -251,6 +254,8 @@ ContinentLineVis.prototype.selectPlayers = function() {
   var vis = this;
   var selection = d3.select('#select-players-continent').property("value");
   $("#continent-line-vis").empty();
+  vis.selection = selection;
+
   vis.initVis();
   if (selection !== "All") {
     vis.regions = vis.all_regions.filter((d) => d === selection);
@@ -261,6 +266,56 @@ ContinentLineVis.prototype.selectPlayers = function() {
   }
 }
 
+ContinentLineVis.prototype.drawScatterAll = function() {
+  var vis = this;
+  var scatter = vis.svg.selectAll(".scatter")
+    .data(vis.dataScatter);
+
+  scatter.enter()
+    .append("circle")
+    .attr("class", "scatter")
+    .merge(scatter)
+    .attr("cx", (d, i) => {
+      return vis.xScale(d.age);
+    })
+    .attr("cy", (d, i) => {
+      return vis.yScale(d.rank_log);
+    })
+    .style('opacity', 0.1)
+    .attr("r", (d) => {
+      return 3;
+    })
+    .attr("fill", (d, i) => {
+      return vis.color(vis.regionToIdx[d.continent])
+    });
+  scatter.exit().remove();
+}
+
+ContinentLineVis.prototype.drawScatterContinent = function(cont, cont_idx) {
+  var vis = this;
+  var scatter = vis.svg.selectAll(".scatter")
+    .data(vis.dataScatter);
+
+  scatter.enter()
+    .append("circle")
+    .attr("class", "scatter")
+    .merge(scatter)
+    .attr("cx", (d, i) => {
+      return vis.xScale(d.age);
+    })
+    .attr("cy", (d, i) => {
+      return vis.yScale(d.rank_log);
+    })
+    .style('opacity', 0.2)
+    .attr("r", (d) => {
+      if (d.continent === cont) return 3;
+      return 0;
+    })
+    .attr("fill", (d, i) => {
+      return vis.color(cont_idx);
+    });
+  scatter.exit().remove();
+}
 
 function formatToolTip(d) {
   var txt = "";

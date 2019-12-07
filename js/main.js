@@ -26,10 +26,11 @@ $('#select-players').change(() => {
 
 queue()
     .defer(d3.csv, 'data/continent_plot.csv')
+    .defer(d3.csv, 'data/filtered.continents.dataset.csv')
     .await(createContinentLineVis);
 
-function createContinentLineVis(error, data) {
-  continentLineVis = new ContinentLineVis("continent-line-vis", data);
+function createContinentLineVis(error, data, data2) {
+  continentLineVis = new ContinentLineVis("continent-line-vis", data, data2);
 };
 
 $('#select-players-continent').change(() => {

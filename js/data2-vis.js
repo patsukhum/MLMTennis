@@ -34,7 +34,7 @@ Data2Vis.prototype.initVis = function() {
     'left': 40,
     'right': 40
   };
-  vis.width = 900 - vis.margin.left - vis.margin.right;
+  vis.width = 600 - vis.margin.left - vis.margin.right;
   vis.height = vis.width;
   vis.svg = makeSvg(vis, 'data2-vis');
 

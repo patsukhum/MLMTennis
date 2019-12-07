@@ -62,7 +62,12 @@
 				</div>
 		</div>
 		<div id="data1-sec" class="section">
-			<div id="data1-vis" class="vis-container"></div>
+			<!-- <div id="data1-vis" class="vis-container"></div> -->
+			<center>
+				<div class='div-container'>
+					<h1 class="title-text">Data</h1>
+				</div>
+			</center>
 				<div class='div-container'>
 					<center>
 						<!-- <h3>Data</h3> -->
@@ -73,7 +78,33 @@
 
 		</div>
 		<div id="data2-sec" class="section">
-			<div id="data2-vis" class="vis-container"></div>
+			<center>
+				<div class='div-container'>
+					<h1 class="title-text">EDA</h1>
+				</div>
+			</center>
+			<div class="enclosing-div">
+				<div>
+					<center>
+						<h4>Individual Curves</h4>
+						<select id="select-players" class="form-control">
+							<option value="All">All</option>
+							<option value="Federer">Federer</option>
+							<option value="Nadal">Nadal</option>
+							<option value="Djokovic">Djokovic</option>
+						</select>
+					</center>
+					<center>
+						<div id="line-vis" class="vis-container"></div>
+					</center>
+			</div>
+			<div>
+				<center>
+					<h4>Countries Representing</h4>
+					<div id="data2-vis" class="vis-container"></div>
+				</center>
+			</div>
+			</div>
 		</div>
 		<div id="model-sec" class="section">
 			<div id="model-vis" class="vis-container"></div>
@@ -85,20 +116,6 @@
 							probata sunt, quod item fratri puto. Quid ei reliquisti, nisi te, quoquo modo loqueretur, intellegere, quid diceret?
 					</p>
 				</div>
-		</div>
-		<div id="line-sec" class="section">
-			<center>
-				<h1>Top Players</h1>
-				<select id="select-players" class="form-control">
-					<option value="All">All</option>
-					<option value="Federer">Federer</option>
-					<option value="Nadal">Nadal</option>
-					<option value="Djokovic">Djokovic</option>
-				</select>
-			</center>
-			<center>
-				<div id="line-vis" class="vis-container"></div>
-			</center>
 		</div>
 		<div id="continent-line-sec" class="section">
 			<center>

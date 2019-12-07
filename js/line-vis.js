@@ -23,7 +23,7 @@ LineVis.prototype.initVis = function() {
     'left': 40,
     'right': 40
   };
-  vis.width = 600 - vis.margin.left - vis.margin.right;
+  vis.width = 500 - vis.margin.left - vis.margin.right;
   vis.height = vis.width;
   vis.padding = 40;
   vis.svg = makeSvg(vis, 'line-vis');
