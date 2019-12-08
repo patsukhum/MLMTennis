@@ -13,7 +13,7 @@ function createMapVis(error, data, data2, data3, data4) {
 
 
 queue()
-    .defer(d3.csv, 'data/champs.csv')
+    .defer(d3.csv, 'data/facet2.csv')
     .await(createLineVis);
 
 function createLineVis(error, data) {

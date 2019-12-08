@@ -19,7 +19,7 @@ Data2Vis = function(_parentElement, _data, _mapData, _countryCodes, medianRank) 
   // this.dataObject = this.medianRank;
 
   console.log(this.data);
-  console.log(this.mapDataRaw);
+  console.log(this.medianRank);
 
   this.initVis();
 };
@@ -152,12 +152,14 @@ Data2Vis.prototype.updateVis = function() {
         .duration(800)
         .style("opacity", .8);
       console.log(d);
+      var alpha = vis.idToAlpha[d.id][0];
       var numPlayers = vis.dataObject[vis.idToAlpha[d.id]];
       if (numPlayers === undefined) numPlayers = 'N/A';
-      var txt = vis.idToCountry[d.id] + "<br>Num Players: "+numPlayers;
+      var txt = vis.idToCountry[d.id] + "<br>Num Players: "+numPlayers+"<br>Median Rank: "+vis.medianRank[alpha];
       vis.tooltip.html(txt)
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
+
     })
     .on("mouseout", (d) => {
       vis.tooltip.transition()

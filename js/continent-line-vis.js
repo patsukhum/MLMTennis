@@ -57,6 +57,14 @@ ContinentLineVis.prototype.initVis = function() {
     .style("opacity", 0);
 
   vis.all_regions = ["AF", "AS", "EU", "NoA", "OC", "SA"]
+  vis.regionNameMapping = {
+    'AF': 'Africa',
+    'AS': 'Asia',
+    'EU': 'Europe',
+    'NoA': 'North America',
+    'OC': 'Oceania',
+    'SA':'South Africa'
+  };
   vis.regionToIdx = {
     "AF": 0,
     "AS": 1,
@@ -243,7 +251,7 @@ ContinentLineVis.prototype.drawPlayer = function(vis, cur_d, idx) {
     })
     .text((d, i) => {
       if (vis.regions.includes(vis.all_regions[idx]))
-        return d;
+        return vis.regionNameMapping[d];
       return "";
     })
     .attr("fill", "black");
