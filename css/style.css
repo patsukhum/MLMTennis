@@ -84,9 +84,24 @@
 .model-div {
   border-style: solid;
   border-width: 3px;
-  width: 450px;
+  width: 600;
   margin: 30px;
+  margin-right: 200px;
+  margin-left: 200px;
   padding: 30px;
   border-radius: 20px;
 
+}
+
+#avg-rank-img {
+  width: 450px;
+  border: 3px solid black;
+  margin-top: 100px;
+}
+
+.enclosing-div div {
+  border-right: 1px solid black;
+}
+.enclosing-div div:last-child {
+  border-right: none;
 }

@@ -34,7 +34,7 @@ Data2Vis.prototype.initVis = function() {
     'left': 40,
     'right': 40
   };
-  vis.width = 600 - vis.margin.left - vis.margin.right;
+  vis.width = 450 - vis.margin.left - vis.margin.right;
   vis.height = vis.width;
   vis.svg = makeSvg(vis, 'data2-vis');
 
@@ -50,7 +50,7 @@ Data2Vis.prototype.initVis = function() {
   vis.svg.append("text")
     .attr("class", "legend-text")
     .text('Total Players')
-    .attr("x", 23)
+    .attr("x", -23)
     .attr("y", -10+180)
     .attr("fill", "black")
     .style("font-size", 14);
@@ -58,7 +58,7 @@ Data2Vis.prototype.initVis = function() {
   vis.svg.append("text")
     .attr("class", "legend-text")
     .text('(from 2000-2018)')
-    .attr("x", 23)
+    .attr("x", -23)
     .attr("y", 190)
     .attr("fill", "black")
     .style("font-size", 11);
@@ -125,7 +125,7 @@ Data2Vis.prototype.updateVis = function() {
   //   .center([0, 0]).scale(50);
   var projection = d3.geoMercator()
       .translate([vis.width/2, vis.height /3])
-      .center([0, 0]).scale(80);
+      .center([0, 0]).scale(60);
 
   // vis.svg.selectAll("path")
   //   .data(vis.mapData)
@@ -189,7 +189,7 @@ Data2Vis.prototype.updateVis = function() {
     .attr("class", "legend-rect")
     .merge(legendRects)
     .attr("x", (d, i) => {
-      return 30;
+      return -15;
     })
     .attr("y", (d, i) => {
       return yLegend(i) - 20+200;
@@ -214,7 +214,7 @@ Data2Vis.prototype.updateVis = function() {
     .attr("class", "texts")
     .merge(texts)
     .attr("x", (d, i) => {
-      return 55;
+      return 10;
     })
     .attr("y", (d, i) => {
       return -5 + yLegend(i)+200;

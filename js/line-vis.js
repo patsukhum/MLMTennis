@@ -194,7 +194,7 @@ LineVis.prototype.drawPlayer = function(vis, cur_d, idx) {
       vis.div.transition()
         .duration(800)
         .style("opacity", .8);
-      var txt = formatToolTip(d);
+      var txt = formatToolTipLine(d);
       vis.div.html(txt)
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
@@ -273,7 +273,7 @@ LineVis.prototype.selectPlayers = function() {
 }
 
 
-function formatToolTip(d) {
+function formatToolTipLine(d) {
   var txt = "";
   txt += d.last_name + "<br>";
   var rankstr = "" + d.rank;

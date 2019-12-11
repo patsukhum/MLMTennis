@@ -29,6 +29,9 @@
 		</div>
 		<div id="background-sec" class="section">
 			<div id="background-vis" class="vis-container"></div>
+			<center>
+				<h1>Motivation & Background</h1>
+			</center>
 			<div class='div-container'>
 				<h3>Motivation</h3>
 				<p>
@@ -70,7 +73,7 @@
 				<div class='div-container'>
 					<center>
 						<!-- <h3>Data</h3> -->
-					<img src="img/data1.png" style="width: 1100px;"/>
+					<img src="img/data1.1.png" style="width: 1100px;"/>
 				</center>
 				</div>
 
@@ -83,9 +86,9 @@
 				</div>
 			</center>
 			<div class="enclosing-div">
-				<div>
+				<div style="flex:0.7;">
 					<center>
-						<h4>Individual Curves</h4>
+						<h4>Individual Player Curves</h4>
 						<select id="select-players" class="form-control">
 							<option value="All">All</option>
 							<option value="Federer">Federer</option>
@@ -102,9 +105,15 @@
 						<div id="line-vis" class="vis-container"></div>
 					</center>
 			</div>
-			<div>
+			<div style="flex:1; margin-left: 30px;">
+				<center style="margin-right: 30px;">
+					<h4>Average Age and Rank Across All Players</h4>
+					<img src="img/age_rank.png" id='avg-rank-img'></img>
+				</center>
+			</div>
+			<div style="flex:1; margin-right: 80px;">
 				<center>
-					<h4>Countries Representing</h4>
+					<h4>Player Count and Average Rank by Country</h4>
 					<div id="data2-vis" class="vis-container"></div>
 				</center>
 			</div>
@@ -114,40 +123,60 @@
 			<div id="model-vis" class="vis-container"></div>
 				<div class='div-container'>
 					<center>
-					<h2 style="margin-bottom: 60px;">Model</h2>
-					<div style="display:flex; flex-direction: row;">
-						<div class="model-div">
-							<h5>Model 1</h5>
-							<img src="img/model1.png" style="width: 400px;"/>
-						</div>
-						<div class="model-div">
-							<h5>Model 2</h5>
-							<img src="img/model2.png"style="width: 400px;"/>
-						</div>
+					<h2 style="margin-bottom: 60px;">Continents Model</h2>
+					<div class="model-div">
+						<img src="img/model1.png" style="width: 600px;"/>
 					</div>
 					</center>
 				</div>
 		</div>
 		<div id="continent-line-sec" class="section">
 			<center>
-				<h1 style="margin-top: 40px;">Player Continent Based Model</h1>
-				<select id="select-players-continent"  class="form-control">
-					<option value="All">All</option>
-					<option value="AF">Africa</option>
-					<option value="AS">Asia</option>
-					<option value="EU">Europe</option>
-					<option value="NoA">North America</option>
-					<option value="OC">Oceanea</option>
-					<option value="SA">South Africa</option>
-				</select>
+				<h1 style="margin-top: 40px;">Continents Model Results</h1>
 			</center>
-			<center>
-				<div id="continent-line-vis" class="vis-container"></div>
-			</center>
+			<div style="display:flex; flex-direction: row;">
+				<div style="flex: 2">
+				<center>
+					<h5 style="margin-top: 10px; margin-bottom: 0px;">Filter Continents</h5>
+					<select id="select-players-continent"  class="form-control">
+						<option value="All">All</option>
+						<option value="AF">Africa</option>
+						<option value="AS">Asia</option>
+						<option value="EU">Europe</option>
+						<option value="NoA">North America</option>
+						<option value="OC">Oceanea</option>
+						<option value="SA">South Africa</option>
+					</select>
+				</center>
+				<center >
+					<div id="continent-line-vis" class="vis-container"></div>
+				</center>
+				</div>
+				<div style="flex: 1">
+					<center>
+						<h3>Key Takeaways</h3>
+					</center>
+				</div>
+			</div>
+		</div>
+		<div id="model-sec" class="section">
+			<div id="model-vis" class="vis-container"></div>
+				<div class='div-container'>
+					<center>
+					<h2 style="margin-bottom: 60px;">Matches Model</h2>
+					<div class="model-div">
+						<img src="img/model2.png"style="width: 600px;"/>
+					</div>
+					</center>
+				</div>
 		</div>
 		<div id="match-line-sec" class="section">
 			<center>
-				<h1 style="margin-top: 40px;">Match Statistics Based Model</h1>
+			<h1 style="margin-top: 40px;">Match Statistics Model Results</h1>
+			</center>
+			<div style="display:flex; flex-direction: row;">
+			<div style="flex: 2">
+			<center>
 				<div class="slider-container">
 					<div class='slider-vertical'>
 						<div style="margin-right: 20px;">First Serves Won:</div>
@@ -177,6 +206,13 @@
 					<div id="match-line-vis" class="vis-container"></div>
 				</div>
 			</center>
+			</div>
+			<div style="flex: 0.8">
+				<center>
+					<h3>Key Takeaways</h3>
+				</center>
+			</div>
+			</div>
 		</div>
 	</div>
 

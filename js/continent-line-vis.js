@@ -34,7 +34,7 @@ ContinentLineVis.prototype.initVis = function() {
     'right': 40
   };
   vis.width = 800 - vis.margin.left - vis.margin.right;
-  vis.height = 500;
+  vis.height = 450;
   vis.padding = 40;
   vis.svg = makeSvg(vis, 'line-vis');
   vis.yScale = d3.scaleLinear()
@@ -123,7 +123,7 @@ ContinentLineVis.prototype.initVis = function() {
       return "Rank (Log Transformed)";
     })
     .attr("transform", "rotate(-90)")
-    .attr("x", -220)
+    .attr("x", -200)
     .style("text-anchor", "end")
     .attr("y", 15);
 
@@ -226,7 +226,7 @@ ContinentLineVis.prototype.drawPlayer = function(vis, cur_d, idx) {
       return 100;
     })
     .attr("cy", (d, i) => {
-      return 300 + 20 * idx;
+      return 270 + 20 * idx;
     })
     .attr("r", (d) => {
       if (vis.regions.includes(vis.all_regions[idx]))
@@ -247,7 +247,7 @@ ContinentLineVis.prototype.drawPlayer = function(vis, cur_d, idx) {
       return 120;
     })
     .attr("y", (d, i) => {
-      return 305 + 20 * idx;
+      return 275 + 20 * idx;
     })
     .text((d, i) => {
       if (vis.regions.includes(vis.all_regions[idx]))
