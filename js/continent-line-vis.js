@@ -251,6 +251,7 @@ ContinentLineVis.prototype.drawPlayer = function(vis, cur_d, idx) {
     })
     .text((d, i) => {
       if (vis.regions.includes(vis.all_regions[idx]))
+        if (vis.regionNameMapping[d] === "South Africa") return "South America";
         return vis.regionNameMapping[d];
       return "";
     })
