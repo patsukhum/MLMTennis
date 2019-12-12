@@ -95,7 +95,7 @@ MatchLineVis.prototype.initVis = function() {
   vis.svg.append("g")
     .append("text")
     .text((d) => {
-      return "Rank";
+      return "Rank (sqrt)";
     })
     .attr("transform", "rotate(-90)")
     .attr("x", -220)
